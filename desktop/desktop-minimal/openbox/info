@@ -1,0 +1,19 @@
+Openbox is a tiny windowmanager for X11. It is widely used by those that like to keep things simple and fast but it's also used as a base for several desktop environments, LXDE and RazorQT being the most famous.
+
+The openbox project homepage is located at: http://openbox.org, there you'll find documentation and also the latest code.
+
+Some other places known for great openbox documentation and howto's are:
+ - The Gentoo wiki: https://wiki.gentoo.org/wiki/Openbox
+ - The Arch Linux wiki: https://wiki.archlinux.org/index.php/Openbox
+ - The ChrunchBang Linux forums: http://crunchbang.org/forums
+
+Why should you install openbox?
+ - Extremely lightweight
+ - Very stable
+ - Easy to use
+ - Quite easy to configure when reading the manual
+ - Great for single purpose applications
+ - Works with most every desktop environment
+
+
+This package will install a basic openbox environment, GUI configuration tools for the desktop, themes and menus. This script will also install a minimal Xserver if one is not already active. The desktop will be completed by a network manager, a packagemanager to help you install extra software and some small tools and settings that you expect to find in a modern desktop environment. Besides a login screen, filemanager and Xterminal there are not many other applications installed with this script, this way you can pick those out on your own using the packagemanager or install some openbox apps script to pick them for you. 

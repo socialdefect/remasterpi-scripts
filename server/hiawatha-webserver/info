@@ -1,0 +1,20 @@
+Hiawatha is an extremely fast webserver and also very lightweight. 
+It is truly made for your Pi. Another big advantage of hiawatha is that
+it's code is very secure and stable. No single person has managed to
+break trough it's defenses in any way.
+
+Configuring Hiawatha is not all that hard to do, just take a look at:
+http://www.hiawatha-webserver.org/howto to see what's possible and how 
+to get there.
+
+This script does configure php to work with hiawatha but you will have to do
+the finetuning yourself. 
+
+
+What does this script install??
+
+	- Hiawatha webserver
+	- php5-fcgi
+	- working webserver @ your local raspi ip address
+As you see this is the bare minimum so if you need support for something
+use apt-get to install the required php5 modules.

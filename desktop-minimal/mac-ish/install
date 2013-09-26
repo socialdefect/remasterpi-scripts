@@ -1,7 +1,0 @@
-#!/bin/bash
-
-echo 'Installing Feature...'
-
-sleep 5
-
-exit $?

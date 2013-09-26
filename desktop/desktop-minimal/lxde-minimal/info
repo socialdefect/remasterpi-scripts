@@ -1,0 +1,19 @@
+LXDE is the standard desktop environment on Raspbian (and a lot more OS).
+It's build on top of OpenBox and it is both lightweight and modern.
+
+This package will install a basic system with a login screen, LXDE desktop
+and a decent amount of applications for daily use and settings.
+
+If you don't like the standard Raspbian packages and would like to install 
+your favorite applications on top of the LXDE desktop then this script will
+help you past the command-line part, straight to the graphical desktop.
+
+
+This package might give some people a headache since you might miss some 
+features you are used to have in LXDE. These can all be installed separately
+using apt-get. Your best bet is to search google to find names of packages
+based on description. 
+It might take you a little while to gather everything you need but once it
+is as you like it you've got your own fine-tuned Raspbian.
+
+ 

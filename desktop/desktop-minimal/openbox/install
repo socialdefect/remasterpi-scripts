@@ -1,0 +1,82 @@
+#!/bin/bash
+
+## This install script can be used as you like. Use it to add repositories,
+## install software using apt-get or compile source code.
+## Always make sure you test your script on a fresh install of remasterpi,
+## this way you are less likely to forget dependencies required
+## by your script.
+ echo
+ echo 'Updating the repositories:'
+ echo
+ apt-get -f update
+echo
+
+## Check and Install required dependencies
+ depcheck(){
+	 for deps in xserver-xorg xserver-xorg-input-evdev menu-xdg xdg-user-dirs xdg-utils p7zip-full pulseaudio pulseaudio-module-x11 pulseaudio-module-zeroconf pulseaudio-utils ; do
+	 	if [ -f `which $deps` ] ; then
+			echo "$deps ==> Installed"
+	 	else
+			echo "Adding $deps to Install list"
+			DEPLIST="$DEPLIST $deps"
+	 	fi
+	 done
+  ## Install dependencies stored in the DepList
+	echo && echo 'Installing dependencies required by the install script'
+	echo
+	apt-get --no-install-recommends install -y "$DEPLIST"
+}
+
+depcheck
+
+## Use apt-get or faster-apt (type 'apthelp' for faster-apt command list) to
+## installsoftware packages from the configured repositories.
+#
+# echo 'Updating the repositories:'
+# echo
+# apt-update
+# echo
+echo 'Installing some software packages'
+apt-get --no-install-recommends install -y gnome-settings-daemon lxrandr 
+apt-get install -y wicd-gtk openbox obmenu obconf pcmanfm xarchiver leafpad openbox-themes tango-icon-theme lxterminal slim xauth synaptic pavucontrol xpdf feh binutils 
+ echo
+ echo 'All packages have been installed'
+
+## Install deb packages not available from a repository
+#
+# wget http://some-server/something/debs/your-package.deb
+# apt-localinstall your-package.deb
+
+## Install some binary tar archive
+#
+# wget http://some-server/somehing/your-project.tar.gz
+# tar xvzf your-project.tar.gz -C /usr/local/
+# chmod +x /usr/local/your-project/bin/executable
+# ln -s /usr/local/your-project/bin/executable /usr/bin/your-project
+
+## Install some source package from a git repository
+#
+# git clone https://some-git-repo/your-name/your-project.git
+# cd your-project
+# ./configure && make && make install
+# if [ "$?" != '0' ] ; then
+#	echo 'Failed to build the source package!!!'
+#	exit 1
+# else
+#	echo 'Source package has been succesfuly compiled and installed.'
+# fi
+
+## Use basic unix tools to configure the system
+ echo 'Configuring your system...'
+ echo
+ echo 'PATH="/usr/local/bin:/sbin:/usr/sbin:$PATH"' >> /etc/bash.bashrc
+ echo ''
+# mkdir -v /usr/local/new-dir
+# chmod u+x /usr/local/bin/your-script
+
+update-rc.d slim defaults
+
+echo && echo 'Cleaning apt cache before exit...'
+apt-get clean
+
+exit $?

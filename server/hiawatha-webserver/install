@@ -1,0 +1,120 @@
+#!/bin/bash
+
+## This install script can be used as you like. Use it to add repositories,
+## install software using apt-get or compile source code.
+## Always make sure you test your script on a fresh install of remasterpi,
+## this way you are less likely to forget dependencies required
+## by your script.
+
+## Check and Install required dependencies
+# depcheck(){
+	# for deps in dep1 dep2 dep3 dep4 dep5 ; do
+	# 	if [ -f $deps ] ; then
+	#		echo "$deps ==> Installed"
+	# 	else
+	#		echo "Adding $deps to Install list"
+	#		DEPLIST="$DEPLIST $deps"
+	# 	fi
+	# done
+  ## Install dependencies stored in the DepList
+	#echo && echo 'Installing dependencies required by the install script'
+	#echo
+	# aptinstall -y "$DEPLIST"
+# }
+
+echo 'Start Installing Dependencies.....'
+echo
+apt-get install cmake gcc automake autoconf gcc build-essential binutils libxslt-dev libxml2-dev debhelper
+echo
+apt-get install php5-fcgi
+echo && echo 'Move to /usr/src...'
+echo
+cd /usr/src
+pwd
+echo
+echo 'Download hiawatha sources version 9.2'
+wget -c http://www.hiawatha-webserver.org/files/hiawatha-9.2.tar.gz
+echo
+echo 'Extracting source archive....'
+echo
+tar xvzf hiawatha-9.2.tar.gz && rm hiawatha-9.2.tar.gz
+echo
+cd hiawatha*/
+echo 'Run Debian package builder, please be patient.......'
+echo
+./extra/make_debian_package
+if [ $? = 0 ] ; then
+	echo 'Package succesfuly built!'
+	echo 'Will now install using dpkg....'
+	dpkg -i hiawatha*.deb
+	if [ $? != 0 ] ; then
+		apt-get -f -y --force-yes install
+	fi
+else
+	echo 'Package build failed, check for errors and try again'
+	exit 1
+fi
+
+echo && echo 'Configuring php for use with hiawatha...'
+echo 'cgi.fix_pathinfo = 0' >> /etc/php5/cgi/php.ini
+echo 'cgi.rfc2616_headers = 1' >> /etc/php5/cgi/php.ini
+
+
+## Use apt-get or faster-apt (type 'apthelp' for faster-apt command list) to
+## installsoftware packages from the configured repositories.
+#
+# echo 'Updating the repositories:'
+# echo
+# apt-update
+# echo
+# echo 'Installing some software packages'
+# apt-minimal install -y git-core rsync
+# aptinstall -y wicd-curses 
+# echo
+# echo 'All packages have been installed'
+
+## Install deb packages not available from a repository
+#
+# wget http://some-server/something/debs/your-package.deb
+# apt-localinstall your-package.deb
+
+## Install some binary tar archive
+#
+# wget http://some-server/somehing/your-project.tar.gz
+# tar xvzf your-project.tar.gz -C /usr/local/
+# chmod +x /usr/local/your-project/bin/executable
+# ln -s /usr/local/your-project/bin/executable /usr/bin/your-project
+
+## Install some source package from a git repository
+#
+# git clone https://some-git-repo/your-name/your-project.git
+# cd your-project
+# ./configure && make && make install
+# if [ "$?" != '0' ] ; then
+#	echo 'Failed to build the source package!!!'
+#	exit 1
+# else
+#	echo 'Source package has been succesfuly compiled and installed.'
+# fi
+
+## Use basic unix tools to configure the system
+# echo 'Configuring your system...'
+# echo
+# echo 'PATH="/usr/local/bin:/sbin:/usr/sbin:$PATH"' >> /etc/bash.bashrc
+# mkdir -v /usr/local/new-dir
+# chmod u+x /usr/local/bin/your-script
+
+echo && echo 'The ifconfig command will now run to show you your ip address'
+echo 'The address looks like this: 192.168.1.123'
+echo 'Your webserver will be available to all computers in your network'
+echo 'on this ip address:'
+sleep 7
+echo && ifconfig
+
+echo && echo 'If you are using the LAN cable look for the ip on eth0'
+echo 'If you are using a wireless device this is most likely wlan0 or ath0'
+
+echo && echo 'Your web folder is located on /var/www/hiawatha'
+echo 'Use RSYNC, SCP, SSHFS, terminal or filemanager to get your code in there..'
+
+exit $?
